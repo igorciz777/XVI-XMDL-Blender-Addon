@@ -91,7 +91,7 @@ def build_xvi(data, filename):
             bm.free()
 
             #mesh.use_auto_smooth = True
-            if normals != []:
+            if normals:
                 mesh.normals_split_custom_set_from_vertices(normals)
 
             material = bpy.data.materials.get(empty.name + "_" + str(submesh))
@@ -115,27 +115,27 @@ def build_mdl(data, filename):
     parent.name = filename
     parent.rotation_euler = (radians(90), 0, 0)
 
-    for mesh_ivx in range(len(data.positions)):  # len(data.positions)
+    for mesh_xvi in range(len(data.positions)):  # len(data.positions)
 
         bpy.ops.object.empty_add(type='PLAIN_AXES')
         empty = bpy.context.active_object
         empty.empty_display_size = 0.1
-        empty.name = "mesh_" + str(mesh_ivx)
+        empty.name = "mesh_" + str(mesh_xvi)
 
         empty.parent = parent
 
-        meshPositions = data.positions[mesh_ivx]
+        meshPositions = data.positions[mesh_xvi]
 
-        meshTexCoords = data.texCoords[mesh_ivx]
-        meshTexCoords2 = data.texCoords2[mesh_ivx]
+        meshTexCoords = data.texCoords[mesh_xvi]
+        meshTexCoords2 = data.texCoords2[mesh_xvi]
 
-        meshTexCoordsNoScale = data.texCoordsNoScale[mesh_ivx]
-        meshTexCoordsXScaled = data.texCoordsXScaled[mesh_ivx]
-        meshTexCoordsYScaled = data.texCoordsYScaled[mesh_ivx]
-        meshTexCoordsXYScaled = data.texCoordsXYScaled[mesh_ivx]
+        meshTexCoordsNoScale = data.texCoordsNoScale[mesh_xvi]
+        meshTexCoordsXScaled = data.texCoordsXScaled[mesh_xvi]
+        meshTexCoordsYScaled = data.texCoordsYScaled[mesh_xvi]
+        meshTexCoordsXYScaled = data.texCoordsXYScaled[mesh_xvi]
 
-        meshNormals = data.normals[mesh_ivx]
-        meshFaces = data.faces[mesh_ivx]
+        meshNormals = data.normals[mesh_xvi]
+        meshFaces = data.faces[mesh_xvi]
 
         mesh = bpy.data.meshes.new(str(empty.name))
         obj = bpy.data.objects.new(str(empty.name), mesh)
@@ -176,8 +176,8 @@ def build_mdl(data, filename):
 
             vertex = bm.verts.new(meshPositions[j])
 
-            if meshNormals != []:
-                if meshNormals[j] != None:
+            if meshNormals:
+                if meshNormals[j] is not None:
                     vertex.normal = meshNormals[j]
                     normals.append(meshNormals[j])
 
@@ -193,8 +193,7 @@ def build_mdl(data, filename):
                 face.smooth = True
             except:
                 for Face in facesList:
-                    if set([vertexList[meshFaces[j][0]], vertexList[meshFaces[j][1]],
-                            vertexList[meshFaces[j][2]]]) == set(Face[1]):
+                    if {vertexList[meshFaces[j][0]], vertexList[meshFaces[j][1]], vertexList[meshFaces[j][2]]} == set(Face[1]):
                         face = Face[0].copy(verts=False, edges=True)
                         face.normal_flip()
                         face.smooth = True
@@ -241,12 +240,12 @@ def build_mdl(data, filename):
         bm.free()
 
         #mesh.use_auto_smooth = True
-        if normals != []:
+        if normals:
             mesh.normals_split_custom_set_from_vertices(normals)
 
-        material = bpy.data.materials.get(str(data.xvi_header.materials[mesh_ivx]))
+        material = bpy.data.materials.get(str(data.xvi_header.materials[mesh_xvi]))
         if not material:
-            material = bpy.data.materials.new(str(data.xvi_header.materials[mesh_ivx]))
+            material = bpy.data.materials.new(str(data.xvi_header.materials[mesh_xvi]))
 
         mesh.materials.append(material)
 

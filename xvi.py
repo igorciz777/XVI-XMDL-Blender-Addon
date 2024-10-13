@@ -302,12 +302,12 @@ class XVI(object):
         self.faces = []
         self.materials = []
 
-        self.ivx_header = XVI_Header(br)
+        self.xvi_header = XVI_Header(br)
 
-        for a in range(self.ivx_header.meshCount):  # self.ivx_header.meshCount
+        for a in range(self.xvi_header.meshCount):  # self.ivx_header.meshCount
 
             print("mesh position " + str(a) + " : " + str(br.tell()))
-            self.ivx_meshHeader = XVI_meshHeader(br)
+            self.xvi_meshHeader = XVI_meshHeader(br)
 
             meshPositions = []
             meshTexCoords = []
@@ -320,11 +320,11 @@ class XVI(object):
             # print(self.ivx_meshHeader.submeshCount)
             # self.ivx_meshHeader.submeshCount = 4
 
-            for b in range(self.ivx_meshHeader.submeshCount):  # self.ivx_meshHeader.submeshCount
+            for b in range(self.xvi_meshHeader.submeshCount):  # self.ivx_meshHeader.submeshCount
 
                 print("submesh position " + str(b) + " : " + str(br.tell()))
-                self.ivx_submeshHeader = XVI_subMeshHeader(br, self.ivx_header.xmdl_version,
-                                                           self.ivx_header.norm_version)
+                self.xvi_submeshHeader = XVI_subMeshHeader(br, self.xvi_header.xmdl_version,
+                                                           self.xvi_header.norm_version)
 
                 subMeshPositions = []
                 subMeshTexCoords = []
@@ -338,36 +338,36 @@ class XVI(object):
                 # if a == 23:
                 # self.ivx_submeshHeader.chunkCount = 3
 
-                for c in range(self.ivx_submeshHeader.chunkCount):  # self.ivx_submeshHeader.chunkCount
+                for c in range(self.xvi_submeshHeader.chunkCount):  # self.ivx_submeshHeader.chunkCount
 
                     # print("Chunck position : " + str(br.tell()))
-                    ivx_chunk = XVI_chunk(br, subMeshFaces, index, self.ivx_header.xmdl_version,
-                                          self.ivx_header.norm_version, post_kb2_face_generation)
+                    xvi_chunk = XVI_chunk(br, subMeshFaces, index, self.xvi_header.xmdl_version,
+                                          self.xvi_header.norm_version, post_kb2_face_generation)
 
-                    subMeshPositions.extend(ivx_chunk.chunkPositions)
+                    subMeshPositions.extend(xvi_chunk.chunkPositions)
 
-                    if ivx_chunk.chunkTexCoords == []:
-                        for i in range(ivx_chunk.count):
+                    if not xvi_chunk.chunkTexCoords:
+                        for i in range(xvi_chunk.count):
                             subMeshTexCoords.append([0, 0, 0])
                     else:
-                        subMeshTexCoords.extend(ivx_chunk.chunkTexCoords)
+                        subMeshTexCoords.extend(xvi_chunk.chunkTexCoords)
 
-                    if ivx_chunk.chunkTexCoords2 == []:
-                        for i in range(ivx_chunk.count):
+                    if not xvi_chunk.chunkTexCoords2:
+                        for i in range(xvi_chunk.count):
                             subMeshTexCoords2.append([0, 0, 0])
                     else:
-                        subMeshTexCoords2.extend(ivx_chunk.chunkTexCoords2)
+                        subMeshTexCoords2.extend(xvi_chunk.chunkTexCoords2)
 
-                    if ivx_chunk.chunkNormals == []:
-                        for i in range(ivx_chunk.count):
+                    if not xvi_chunk.chunkNormals:
+                        for i in range(xvi_chunk.count):
                             subMeshNormals.append([0, 0, 0])
                     else:
-                        subMeshNormals.extend(ivx_chunk.chunkNormals)
+                        subMeshNormals.extend(xvi_chunk.chunkNormals)
 
-                    subMeshFaces.extend(ivx_chunk.chunkFaces)
+                    subMeshFaces.extend(xvi_chunk.chunkFaces)
                     subMeshFaces.append(65535)
 
-                    subMeshFacesDirection.extend(ivx_chunk.chunkFacesDir)
+                    subMeshFacesDirection.extend(xvi_chunk.chunkFacesDir)
 
                     index = len(subMeshPositions)
 
@@ -378,8 +378,8 @@ class XVI(object):
                 meshTexCoords2.append(subMeshTexCoords2)
                 meshNormals.append(subMeshNormals)
                 meshFaces.append(StripToTriangle(subMeshFaces, subMeshFacesDirection))
-                meshMaterials.append([self.ivx_submeshHeader.r, self.ivx_submeshHeader.g, self.ivx_submeshHeader.b,
-                                      self.ivx_submeshHeader.a])
+                meshMaterials.append([self.xvi_submeshHeader.r, self.xvi_submeshHeader.g, self.xvi_submeshHeader.b,
+                                      self.xvi_submeshHeader.a])
 
             self.positions.append(meshPositions)
             self.texCoords.append(meshTexCoords)

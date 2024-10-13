@@ -48,7 +48,7 @@ class ImportXVI(Operator, ImportHelper):
 
 
 def menu_func_import(self, context):
-    self.layout.operator(ImportXVI.bl_idname, text="XVI (.xvi)")
+    self.layout.operator(ImportXVI.bl_idname, text="Genki XVI model file (.xvi)")
 
 
 def register():
