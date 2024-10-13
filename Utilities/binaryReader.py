@@ -49,6 +49,30 @@ class BinaryReader:
 
     def readULong(self):
         return struct.unpack(self.endian + "L", self.read(8))[0]
+    
+    def readUInt8(self):
+        return struct.unpack(self.endian + "B", self.read(1))[0]
+    
+    def readUInt16(self):
+        return struct.unpack(self.endian + "H", self.read(2))[0]
+    
+    def readUInt32(self):
+        return struct.unpack(self.endian + "I", self.read(4))[0]
+    
+    def readUInt64(self):
+        return struct.unpack(self.endian + "Q", self.read(8))[0]
+    
+    def readInt8(self):
+        return struct.unpack(self.endian + "b", self.read(1))[0]
+    
+    def readInt16(self):
+        return struct.unpack(self.endian + "h", self.read(2))[0]
+    
+    def readInt32(self):
+        return struct.unpack(self.endian + "i", self.read(4))[0]
+    
+    def readInt64(self):
+        return struct.unpack(self.endian + "q", self.read(8))[0]
 
     def readBytes(self, size):
         ret = bytearray()

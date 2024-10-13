@@ -187,12 +187,12 @@ class MDL_chunk(object):
 
                 elif CMD == 0x6D: # Normals (Pre-Tokyo Xtreme Racer Drift 2) and Texture Coordinates 
                     
-                    if ivx_header.ldmx_version == "00.2" and ivx_header.mron_version == "00.2" :
+                    if ivx_header.xmdl_version == "00.2" and ivx_header.norm_version == "00.2" :
                         for i in range(NUM): # Normals (Pre-Tokyo Xtreme Racer Drift 2)
                             self.chunkNormals.append(Vector((br.readShortToFloat(), br.readShortToFloat(), br.readShortToFloat())).normalized())
                             normalDivisor = br.readShort()
                     
-                    elif ivx_header.ldmx_version == "00.1" and ivx_header.mron_version == "00.1" :
+                    elif ivx_header.xmdl_version == "00.1" and ivx_header.norm_version == "00.1" :
                         for i in range(NUM): # Texture Coordinates
                             self.chunkTexCoords.append([br.readShort() / 32767, br.readShort() / 32767])
                             self.chunkTexCoords2.append([br.readShort() / 32767, br.readShort() / 32767])
