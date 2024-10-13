@@ -3,7 +3,7 @@ bl_info = {
     "description": "Import and export XVI XMDL models mostly found in PS2 games made by Genki",
     "author": "GreenTrafficLight(original), igorciz777(fork)",
     "version": (1, 0),
-    "blender": (4, 2, 0),
+    "blender": (2, 92, 0),
     "location": "File > Import > Genki XVI model file (.xvi)",
     "warning": "",
     "wiki_url": "",
